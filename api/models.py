@@ -1,6 +1,7 @@
 from django.db import models
 
 
+
 class Item(models.Model):
 	name = models.CharField(max_length=120)
 	price = models.DecimalField(max_digits=12, decimal_places=3)
@@ -26,6 +27,8 @@ class CoralType(models.Model):
 
 	def __str__(self):
 		return self.name
+
+
 
 
 
