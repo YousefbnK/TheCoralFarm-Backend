@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-
+from .models import Item, CoralType
 
 class UserCreateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -15,3 +15,16 @@ class UserCreateSerializer(serializers.ModelSerializer):
         new_user.set_password(password)
         new_user.save()
         return validated_data
+
+# ---  corals type Serializers   ----#
+class typeListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CoralType
+        fields = ['name', 'image', ]
+
+
+# ---  corals item Serializers   ----#
+class ItemListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Item
+        fields = "__all__"
