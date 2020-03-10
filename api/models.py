@@ -22,11 +22,10 @@ class Item(models.Model):
 	
 	def __str__(self):
 		return self.name
+  
 	@property
 	def display_price(self):
 		return "%s KD" % self.price
-
-
 
 
 
