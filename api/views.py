@@ -1,10 +1,14 @@
-from rest_framework.generics import CreateAPIView
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 
 # Serializers
-from .serializers import (UserCreateSerializer, UserLoginSerializer)
+
+from rest_framework.generics import CreateAPIView, ListAPIView
+from .serializers import *
+from .models import *
+
 
 class UserCreateAPIView(CreateAPIView):
     serializer_class = UserCreateSerializer
@@ -20,3 +24,16 @@ class UserLoginView(APIView):
 			return Response(valid_data, status=HTTP_200_OK)
 
 		return Response(serializer.errors, HTTP_400_BAD_REQUEST)
+
+# ---  corals type views   ----#
+class type_List_View(ListAPIView):
+    queryset = CoralType.objects.all()
+    serializer_class = typeListSerializer
+
+
+# ---  items "corals" views ----#
+class Item_List_View(ListAPIView):
+    queryset = Item.objects.all()
+    serializer_class = ItemListSerializer
+
+
