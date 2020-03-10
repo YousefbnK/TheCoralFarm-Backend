@@ -9,8 +9,10 @@ urlpatterns = [
 
      #  ----  registration urls ----  # 
     path('register/', UserCreateAPIView.as_view(), name='register'),
+
+     #  ----  API urls ----  # 
+    path('coraltype/', type_List_View.as_view(), name='type_list'),
+    path('coraltype/corals', Item_List_View.as_view(), name='item_list'),
 ]
 
 
-#   ----- comments ------ # 
-#   why do we have the url inside our app ??? 
