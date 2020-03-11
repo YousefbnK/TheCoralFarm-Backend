@@ -11,7 +11,7 @@ class CoralType(models.Model):
 
 
 
-class Item(models.Model):
+class Coral(models.Model):
 	name = models.CharField(max_length=120)
 	price = models.DecimalField(max_digits=12, decimal_places=3)
 	image = models.ImageField(null=True)

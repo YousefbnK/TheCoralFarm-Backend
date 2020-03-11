@@ -33,7 +33,7 @@ class type_List_View(ListAPIView):
 
 # ---  items "corals" views ----#
 class Item_List_View(ListAPIView):
-    queryset = Item.objects.all()
+    queryset = Coral.objects.all()
     serializer_class = ItemListSerializer
 
 

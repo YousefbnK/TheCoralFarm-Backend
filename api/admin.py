@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Models
 
-from .models import Item, CoralType
+from .models import Coral, CoralType
 
-admin.site.register(Item)
+admin.site.register(Coral)
 admin.site.register(CoralType)

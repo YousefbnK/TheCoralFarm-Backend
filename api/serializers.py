@@ -3,7 +3,7 @@ from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 
 # Models
-from .models import Item, CoralType
+from .models import Coral, CoralType
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -54,6 +54,6 @@ class typeListSerializer(serializers.ModelSerializer):
 # ---  corals item Serializers   ----#
 class ItemListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Item
+        model = Coral
         fields = "__all__"
 
