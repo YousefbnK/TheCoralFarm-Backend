@@ -27,7 +27,7 @@ class UserLoginView(APIView):
 
 # ---  corals type views   ----#
 class type_List_View(ListAPIView):
-    queryset = CoralType.objects.all()
+    queryset = Coral_type.objects.all()
     serializer_class = typeListSerializer
 
 
