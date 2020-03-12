@@ -1,4 +1,6 @@
 from rest_framework.generics import CreateAPIView, ListAPIView
+from django.contrib.auth.models import User
+from datetime import datetime
 
 # Serializers
 from .serializers import *
@@ -21,5 +23,16 @@ class type_List_View(ListAPIView):
 class Item_List_View(ListAPIView):
     queryset = Coral.objects.all()
     serializer_class = ItemListSerializer
+
+# --- Orders ---#
+
+class Checkout_View(CreateAPIView):
+	serializer_class = OrdersSerializer
+
+class Previous_Orders_View(ListAPIView):
+	serializer_class = OrdersSerializer 
+
+	def get_queryset(self):
+		return Checkout.objects.filter(user=self.request.user, date__lte=datetime.today())
 
 

@@ -1,4 +1,6 @@
 from django.db import models
+from datetime import datetime
+from django.contrib.auth.models import User
 
 
 
@@ -27,6 +29,17 @@ class Coral(models.Model):
 	@property
 	def display_price(self):
 		return "%s KD" % self.price
+
+
+class Checkout(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	coral = models.ForeignKey("Coral", on_delete=models.CASCADE)
+	date = models.DateField(auto_now_add=True)
+
+	def __str__(self):
+		return self.coral.name
+
+  
 
 
 

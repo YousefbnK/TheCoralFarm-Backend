@@ -12,7 +12,9 @@ urlpatterns = [
 
      #  ----  API urls ----  # 
     path('coraltype/', type_List_View.as_view(), name='type_list'),
-    path('coraltype/corals', Item_List_View.as_view(), name='item_list'),
+    path('coraltype/corals/', Item_List_View.as_view(), name='item_list'),
+    path('orders/', Previous_Orders_View.as_view(), name='previous_orders'),
+    path('neworder/', Checkout_View.as_view(), name='new-order')
 ]
 
 
