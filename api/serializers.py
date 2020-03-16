@@ -1,9 +1,10 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
+from datetime import date
 
 # Models
-from .models import Coral, Coral_type, Checkout
+from .models import Coral, CoralType, Checkout, Order, Profile
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -24,7 +25,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 # ---  corals type Serializers   ----#
 class typeListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Coral_type
+        model = CoralType
         fields = ['name', 'image', ]
 
 
@@ -39,3 +40,23 @@ class OrdersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Checkout
         fields = "__all__"
+
+
+# --- Profile ---#
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["first_name", "last_name"]
+
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    past_orders = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Profile
+        fields = ["user", "past_orders"]
+
+    def get_past_orders(self, obj):
+        order = Checkout.objects.filter(user=obj.user, date__lte=date.today())
+        return OrdersSerializer(order, many=True).data
+

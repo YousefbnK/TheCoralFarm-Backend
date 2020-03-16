@@ -11,10 +11,10 @@ urlpatterns = [
     path('register/', UserCreateAPIView.as_view(), name='register'),
 
      #  ----  API urls ----  # 
-    path('coraltype/', type_List_View.as_view(), name='type_list'),
-    path('coraltype/corals/', Item_List_View.as_view(), name='item_list'),
-    path('orders/', Previous_Orders_View.as_view(), name='previous_orders'),
-    path('neworder/', Checkout_View.as_view(), name='new-order')
+    path('coraltype/', TypeListView.as_view(), name='type_list'),
+    path('coraltype/corals/', ItemListView.as_view(), name='item_list'),
+    path('profile/', ProfileView.as_view(), name='profile'),
+    path('order/create', CheckoutView.as_view(), name='new-order')
 ]
 
 
