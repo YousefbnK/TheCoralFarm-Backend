@@ -34,7 +34,7 @@ class ItemListView(ListAPIView):
 # --- Orders ---#
 class CheckoutView(APIView):
 	def post(self, request):
-		serializer = OrdersSerializer(data=request.data, many=True)
+		serializer = CheckoutSerializer(data=request.data, many=True)
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)

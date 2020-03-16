@@ -36,10 +36,16 @@ class ItemListSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 # --- Orders Serializers ---#
-class OrdersSerializer(serializers.ModelSerializer):
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ["coral", "quantity"]
+
+class CheckoutSerializer(serializers.ModelSerializer):
+    order = OrderSerializer()
     class Meta:
         model = Checkout
-        fields = "__all__"
+        fields = ["order", "user", "date"]
 
 
 # --- Profile ---#
