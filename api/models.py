@@ -40,7 +40,6 @@ class Order(models.Model):
 
 class Checkout(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	item = models.ForeignKey("Order", on_delete=models.CASCADE, default=1)
 	# item = models.ManyToManyField(Order)
 	date = models.DateField(auto_now_add=True)
 
