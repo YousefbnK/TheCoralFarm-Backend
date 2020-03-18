@@ -31,7 +31,9 @@ class ItemListView(ListAPIView):
 	queryset = Coral.objects.all()
 	serializer_class = ItemListSerializer
 
-# --- Orders ---#
+  
+# ---  Orders views   ---#
+
 class OrdersListView(ListAPIView):
 	queryset = Checkout.objects.all()
 	serializer_class = CheckoutListSerializer
@@ -39,6 +41,7 @@ class OrdersListView(ListAPIView):
 	# def get_queryset(self):
 	# 	return Checkout.objects.filter(user=self.request.user)
 # how do i filter the user this filter is not working 
+
 
 class OrdersCreatView(CreateAPIView):
 	serializer_class=CreatOrderSerializer
@@ -77,8 +80,10 @@ class OrdersCreatView(CreateAPIView):
 # 	serializer_class = ProfileSerializer 
 # 	permission_classes = [IsAuthenticated]
 
+
 # 	def get_object(self):
 # 		return self.request.user.profile
+
 
 
 

@@ -4,7 +4,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from datetime import date
 
 # Models
-from .models import Coral, CoralType, Checkout, Order, Profile
+from .models import Coral, CoralType, Checkout, Order
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -37,6 +37,7 @@ class ItemListSerializer(serializers.ModelSerializer):
         model = Coral
         fields = "__all__"
 
+        
 
 # --- Orders list Serializers ---#
 
@@ -52,6 +53,7 @@ class OrdersSerializer(serializers.ModelSerializer):
     def get_coralName(self,obj):
         return obj.coral.name
 
+
     def get_coralPrice(self,obj):
         return obj.coral.price
 
@@ -60,9 +62,11 @@ class OrdersSerializer(serializers.ModelSerializer):
         return total_price
 
 
+
 class CheckoutListSerializer(serializers.ModelSerializer):
     order = serializers.SerializerMethodField()
     class Meta:
+
         model = Checkout
         fields = ['date','user','order']
 
