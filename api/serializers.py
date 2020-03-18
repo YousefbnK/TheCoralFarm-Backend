@@ -4,7 +4,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from datetime import date
 
 # Models
-from .models import Coral, CoralType, Checkout, Order
+from .models import Coral, CoralType, Order_Checkout, Order_items
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -47,7 +47,7 @@ class CheckoutItemsSerializer(serializers.ModelSerializer):
     totalPrice=serializers.SerializerMethodField()
 
     class Meta:
-        model = Order
+        model = Order_items
         fields = ["quantity" ,"coral","coralName","coralPrice", "totalPrice"]
     
     def get_coralName(self,obj):
@@ -64,14 +64,14 @@ class CheckoutItemsSerializer(serializers.ModelSerializer):
 
 
 class CheckoutListSerializer(serializers.ModelSerializer):
-    order = serializers.SerializerMethodField()
+    order_items = serializers.SerializerMethodField()
     class Meta:
 
-        model = Checkout
-        fields = ['date','user','order']
+        model = Order_Checkout
+        fields = ['date','user','order_items']
 
-    def get_order(self, obj):
-        order = Order.objects.filter(cart=obj.id)
+    def get_order_items(self, obj):
+        order = Order_items.objects.filter(cart=obj.id)
         return CheckoutItemsSerializer(order, many=True).data
 
 
@@ -79,17 +79,18 @@ class CheckoutListSerializer(serializers.ModelSerializer):
 # --- Orders create Serializers ---#
 
 class CreateOrderSerializer(serializers.ModelSerializer):
-    order = CheckoutItemsSerializer(many=True)
+    order_items = CheckoutItemsSerializer(many=True)
     class  Meta:
-        model= Checkout
-        fields = ['user','order']
+        model= Order_Checkout
+        fields = ['user','order_items']
 
     def create(self, validated_data):
-        order = validated_data['order']
-        checkout=Checkout.objects.create(**validated_data)
-        for item in order:
-            Order.objects.create(**item,cart=checkout)
-        return validated_data
+        order_items = validated_data.pop('order_items')
+        checkout=Order_Checkout.objects.create(**validated_data)
+        for item in order_items:
+            Order_items.objects.create(**item,cart=checkout)
+        return checkout
+
 
 
 
