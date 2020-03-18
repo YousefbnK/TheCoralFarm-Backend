@@ -18,7 +18,7 @@ class Coral(models.Model):
 	price = models.DecimalField(max_digits=12, decimal_places=3)
 	image = models.ImageField(null=True)
 	choices = (("L", "Low"), ("M", "Medium"), ("H", "High"))
-	light = models.CharField(max_length=12, choices= choices)
+	light = models.CharField(max_length=12, choices=choices)
 	flow = models.CharField(max_length=12, choices=choices)
 	care = models.CharField(max_length=120)
 	coral_type = models.ForeignKey("CoralType", on_delete=models.CASCADE)
@@ -40,8 +40,6 @@ class Order(models.Model):
 
 class Checkout(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	item = models.ForeignKey("Order", on_delete=models.CASCADE, default=1)
-	# item = models.ManyToManyField(Order)
 	date = models.DateField(auto_now_add=True)
 
 	def __str__(self):
