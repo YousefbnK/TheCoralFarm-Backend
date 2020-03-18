@@ -31,15 +31,36 @@ class ItemListView(ListAPIView):
 	queryset = Coral.objects.all()
 	serializer_class = ItemListSerializer
 
-# --- Orders ---#
-class CheckoutView(APIView):
-	def post(self, request):
-		serializer = CheckoutSerializer(data=request.data, many=True)
-		if serializer.is_valid():
-			serializer.save()
-			return Response(serializer.data, status=status.HTTP_201_CREATED)
+  
+# ---  Orders views   ---#
 
-		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class OrdersListView(ListAPIView):
+	queryset = Checkout.objects.all()
+	serializer_class = CheckoutListSerializer
+
+	# def get_queryset(self):
+	# 	return Checkout.objects.filter(user=self.request.user)
+# how do i filter the user this filter is not working 
+
+
+class OrdersCreatView(CreateAPIView):
+	serializer_class=CreatOrderSerializer
+
+
+	
+
+
+
+	 	
+
+# class CheckoutView(APIView):
+# 	def post(self, request):
+# 		serializer = OrdersSerializer(data=request.data, many=True)
+# 		if serializer.is_valid():
+# 			serializer.save()
+# 			return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+# 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 	# queryset = Checkout.objects.all()
 	# serializer_class = OrdersSerializer
 	# # permission_classes = [IsAuthenticated]
@@ -55,12 +76,14 @@ class CheckoutView(APIView):
 
 
 # --- Profile ---#
-class ProfileView(RetrieveAPIView):
-	serializer_class = ProfileSerializer 
-	permission_classes = [IsAuthenticated]
+# class ProfileView(RetrieveAPIView):
+# 	serializer_class = ProfileSerializer 
+# 	permission_classes = [IsAuthenticated]
 
-	def get_object(self):
-		return self.request.user
+
+# 	def get_object(self):
+# 		return self.request.user.profile
+
 
 
 
