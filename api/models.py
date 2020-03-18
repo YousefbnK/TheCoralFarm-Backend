@@ -33,7 +33,7 @@ class Coral(models.Model):
 class Order(models.Model):
 	quantity = models.PositiveIntegerField(null=True)
 	coral = models.ForeignKey("Coral", on_delete=models.CASCADE, default=1)
-	cart = models.ForeignKey("Checkout", on_delete=models.CASCADE, default=1)
+	cart = models.ForeignKey("Checkout", on_delete=models.CASCADE, default=1, related_name="order")
 
 	def __str__(self):
 		return "%s: %s" % (self.coral.name, str(self.quantity))
