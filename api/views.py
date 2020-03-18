@@ -35,16 +35,14 @@ class ItemListView(ListAPIView):
 # ---  Orders views   ---#
 
 class OrdersListView(ListAPIView):
-	queryset = Checkout.objects.all()
 	serializer_class = CheckoutListSerializer
 
-	# def get_queryset(self):
-	# 	return Checkout.objects.filter(user=self.request.user)
-# how do i filter the user this filter is not working 
+	def get_queryset(self):
+		return Checkout.objects.filter(user=self.request.user)
 
 
 class OrdersCreatView(CreateAPIView):
-	serializer_class=CreatOrderSerializer
+	serializer_class=CreateOrderSerializer
 
 
 	

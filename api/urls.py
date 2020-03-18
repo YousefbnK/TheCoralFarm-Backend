@@ -18,9 +18,6 @@ urlpatterns = [
     path('orders/', OrdersListView.as_view(), name='new-order'),
     path('orders/create', OrdersCreatView.as_view(), name='creat-order'),
 
-	# path('profile/', ProfileView.as_view(), name='profile'),
-    # path('order/create', CheckoutView.as_view(), name='new-order'),
-    
 ]
 
 

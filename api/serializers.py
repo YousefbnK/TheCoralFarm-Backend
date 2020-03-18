@@ -41,7 +41,7 @@ class ItemListSerializer(serializers.ModelSerializer):
 
 # --- Orders list Serializers ---#
 
-class OrdersSerializer(serializers.ModelSerializer):
+class CheckoutItemsSerializer(serializers.ModelSerializer):
     coralName=serializers.SerializerMethodField()
     coralPrice=serializers.SerializerMethodField()
     totalPrice=serializers.SerializerMethodField()
@@ -72,13 +72,14 @@ class CheckoutListSerializer(serializers.ModelSerializer):
 
     def get_order(self, obj):
         order = Order.objects.filter(cart=obj.id)
-        return OrdersSerializer(order, many=True).data
+        return CheckoutItemsSerializer(order, many=True).data
+
 
 
 # --- Orders create Serializers ---#
 
-class CreatOrderSerializer(serializers.ModelSerializer):
-    order = OrdersSerializer(many=True)
+class CreateOrderSerializer(serializers.ModelSerializer):
+    order = CheckoutItemsSerializer(many=True)
     class  Meta:
         model= Checkout
         fields = ['user','order']
@@ -96,26 +97,4 @@ class CreatOrderSerializer(serializers.ModelSerializer):
 
 
 
-# # --- Profile ---#
-# class UserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ["first_name", "last_name"]
-
-# class ProfileSerializer(serializers.ModelSerializer):
-#     user = UserSerializer()
-#     past_orders = serializers.SerializerMethodField()
-
-#     class Meta:
-#         model = Profile
-#         fields = ["user", "past_orders"]
-
-#     def get_past_orders(self, obj):
-#         order = Checkout.objects.filter(user=obj.user, date__lte=date.today())
-#         return OrdersSerializer(order, many=True).data
-
-# class UserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ["first_name", "last_name"]
 
