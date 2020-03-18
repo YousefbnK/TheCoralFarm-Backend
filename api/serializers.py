@@ -84,11 +84,11 @@ class CreatOrderSerializer(serializers.ModelSerializer):
         fields = ['user','order']
 
     def create(self, validated_data):
-        order = validated_data.pop('order')
+        order = validated_data['order']
         checkout=Checkout.objects.create(**validated_data)
         for item in order:
             Order.objects.create(**item,cart=checkout)
-        return checkout
+        return validated_data
 
 
 
