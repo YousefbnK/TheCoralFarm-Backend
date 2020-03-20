@@ -22,10 +22,10 @@ class Coral(models.Model):
 	flow = models.CharField(max_length=12, choices=choices)
 	care = models.CharField(max_length=120)
 	coral_type = models.ForeignKey("CoralType", on_delete=models.CASCADE)
-	
+
 	def __str__(self):
 		return self.name
-  
+
 	@property
 	def display_price(self):
 		return "%s KD" % self.price
@@ -39,16 +39,10 @@ class Order_items(models.Model):
 		return "%s: %s" % (self.coral.name, str(self.quantity))
 
 class Order_Checkout(models.Model):
+	choices = (("Cash", "Cash"), ("Knet", "Knet"), ("Visa", "Visa"))
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	date = models.DateField(auto_now_add=True)
+	pyment_method=models.CharField(max_length=12, choices=choices, default="Knet")
 
 	def __str__(self):
 		return self.user.username
-
-  
-
-
-
-
-
-
