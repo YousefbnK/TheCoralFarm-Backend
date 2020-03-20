@@ -37,7 +37,7 @@ class ItemListSerializer(serializers.ModelSerializer):
         model = Coral
         fields = "__all__"
 
-        
+
 
 # --- Orders list Serializers ---#
 
@@ -45,11 +45,11 @@ class CheckoutItemsSerializer(serializers.ModelSerializer):
     coralName=serializers.SerializerMethodField()
     coralPrice=serializers.SerializerMethodField()
     totalPrice=serializers.SerializerMethodField()
-
+    image=serializers.SerializerMethodField()
     class Meta:
         model = Order_items
-        fields = ["quantity" ,"coral","coralName","coralPrice", "totalPrice"]
-    
+        fields = ["quantity" ,"coral","coralName","coralPrice", "totalPrice","image"]
+
     def get_coralName(self,obj):
         return obj.coral.name
 
@@ -61,18 +61,31 @@ class CheckoutItemsSerializer(serializers.ModelSerializer):
         total_price=obj.coral.price*obj.quantity
         return total_price
 
+    def get_image(self,obj):
+        # return obj.coral.image
+        total_price=obj.coral.price*obj.quantity
+
 
 
 class CheckoutListSerializer(serializers.ModelSerializer):
     order_items = serializers.SerializerMethodField()
+    totalPrice = serializers.SerializerMethodField()
     class Meta:
 
         model = Order_Checkout
-        fields = ['date','user','order_items']
+        fields = ["id",'date','user',"totalPrice",'order_items']
+# i need to add total order price field propaply as a signal in model
 
     def get_order_items(self, obj):
         order = Order_items.objects.filter(cart=obj.id)
         return CheckoutItemsSerializer(order, many=True).data
+
+    def get_totalPrice(self, obj):
+        orders = Order_items.objects.filter(cart=obj.id)
+        totalPrice=0
+        for order in orders:
+            totalPrice+=(order.coral.price*order.quantity)
+        return totalPrice
 
 
 
@@ -90,12 +103,3 @@ class CreateOrderSerializer(serializers.ModelSerializer):
         for item in order_items:
             Order_items.objects.create(**item,cart=checkout)
         return checkout
-
-
-
-
-
-
-
-
-
