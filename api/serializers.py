@@ -62,8 +62,8 @@ class CheckoutItemsSerializer(serializers.ModelSerializer):
         return total_price
 
     def get_image(self,obj):
-        # return obj.coral.image
-        total_price=obj.coral.price*obj.quantity
+        return obj.coral.image.url
+    
 
 
 
