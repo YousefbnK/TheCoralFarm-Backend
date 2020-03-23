@@ -95,7 +95,7 @@ class CreateOrderSerializer(serializers.ModelSerializer):
     orderItems = CheckoutItemsSerializer(many=True)
     class  Meta:
         model= OrderCheckout
-        fields = ['user','orderItems']
+        fields = ['orderItems']
 
     def create(self, validated_data):
         orderItems = validated_data.pop('orderItems')
