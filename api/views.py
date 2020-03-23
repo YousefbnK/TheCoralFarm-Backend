@@ -43,3 +43,5 @@ class OrdersListView(ListAPIView):
 
 class OrdersCreatView(CreateAPIView):
 	serializer_class=CreateOrderSerializer
+	def perform_create(self, serializer):
+		serializer.save(user=self.request.user)
