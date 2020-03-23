@@ -23,7 +23,7 @@ class UserCreateAPIView(CreateAPIView):
 # ---  corals type views   ----#
 class TypeListView(ListAPIView):
 	queryset = CoralType.objects.all()
-	serializer_class = typeListSerializer
+	serializer_class = TypeListSerializer
 
 
 # ---  items "corals" views ----#
@@ -31,24 +31,15 @@ class ItemListView(ListAPIView):
 	queryset = Coral.objects.all()
 	serializer_class = ItemListSerializer
 
-  
+
 # ---  Orders views   ---#
 
 class OrdersListView(ListAPIView):
 	serializer_class = CheckoutListSerializer
 
 	def get_queryset(self):
-		return Order_Checkout.objects.filter(user=self.request.user)
+		return OrderCheckout.objects.filter(user=self.request.user)
 
 
 class OrdersCreatView(CreateAPIView):
 	serializer_class=CreateOrderSerializer
-
-
-	
-
-
-
-	 	
-
-
