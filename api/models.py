@@ -30,15 +30,15 @@ class Coral(models.Model):
 	def display_price(self):
 		return "%s KD" % self.price
 
-class Order_items(models.Model):
+class OrderItems(models.Model):
 	quantity = models.PositiveIntegerField(null=True)
 	coral = models.ForeignKey("Coral", on_delete=models.CASCADE, default=1)
-	cart = models.ForeignKey("Order_Checkout", on_delete=models.CASCADE, default=1, related_name="order_items")
+	cart = models.ForeignKey("OrderCheckout", on_delete=models.CASCADE, default=1, related_name="orderItems")
 
 	def __str__(self):
 		return "%s: %s" % (self.coral.name, str(self.quantity))
 
-class Order_Checkout(models.Model):
+class OrderCheckout(models.Model):
 	choices = (("Cash", "Cash"), ("Knet", "Knet"), ("Visa", "Visa"))
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	date = models.DateField(auto_now_add=True)

@@ -5,5 +5,5 @@ from django.contrib import admin
 from .models import *
 admin.site.register(Coral)
 admin.site.register(CoralType)
-admin.site.register(Order_Checkout)
-admin.site.register(Order_items)
+admin.site.register(OrderCheckout)
+admin.site.register(OrderItems)

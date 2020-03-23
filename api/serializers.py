@@ -4,7 +4,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from datetime import date
 
 # Models
-from .models import Coral, CoralType, Order_Checkout, Order_items
+from .models import Coral, CoralType, OrderCheckout, OrderItems
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -25,7 +25,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 
 # ---  corals type Serializers   ----#
-class typeListSerializer(serializers.ModelSerializer):
+class TypeListSerializer(serializers.ModelSerializer):
     class Meta:
         model = CoralType
         fields = ['name', 'image', ]
@@ -47,7 +47,7 @@ class CheckoutItemsSerializer(serializers.ModelSerializer):
     totalPrice=serializers.SerializerMethodField()
     image=serializers.SerializerMethodField()
     class Meta:
-        model = Order_items
+        model = OrderItems
         fields = ["quantity" ,"coral","coralName","coralPrice", "totalPrice","image"]
 
     def get_coralName(self,obj):
@@ -63,25 +63,25 @@ class CheckoutItemsSerializer(serializers.ModelSerializer):
 
     def get_image(self,obj):
         return obj.coral.image.url
-    
+
 
 
 
 class CheckoutListSerializer(serializers.ModelSerializer):
-    order_items = serializers.SerializerMethodField()
+    orderItems = serializers.SerializerMethodField()
     totalPrice = serializers.SerializerMethodField()
     class Meta:
 
-        model = Order_Checkout
-        fields = ["id",'date','user',"totalPrice",'order_items']
-# i need to add total order price field propaply as a signal in model
+        model = OrderCheckout
+        fields = ["id",'date','user',"totalPrice",'orderItems','pyment_method']
 
-    def get_order_items(self, obj):
-        order = Order_items.objects.filter(cart=obj.id)
+
+    def get_orderItems(self, obj):
+        order = OrderItems.objects.filter(cart=obj.id)
         return CheckoutItemsSerializer(order, many=True).data
 
     def get_totalPrice(self, obj):
-        orders = Order_items.objects.filter(cart=obj.id)
+        orders = OrderItems.objects.filter(cart=obj.id)
         totalPrice=0
         for order in orders:
             totalPrice+=(order.coral.price*order.quantity)
@@ -92,14 +92,14 @@ class CheckoutListSerializer(serializers.ModelSerializer):
 # --- Orders create Serializers ---#
 
 class CreateOrderSerializer(serializers.ModelSerializer):
-    order_items = CheckoutItemsSerializer(many=True)
+    orderItems = CheckoutItemsSerializer(many=True)
     class  Meta:
-        model= Order_Checkout
-        fields = ['user','order_items']
+        model= OrderCheckout
+        fields = ['user','orderItems']
 
     def create(self, validated_data):
-        order_items = validated_data.pop('order_items')
-        checkout=Order_Checkout.objects.create(**validated_data)
-        for item in order_items:
-            Order_items.objects.create(**item,cart=checkout)
+        orderItems = validated_data.pop('orderItems')
+        checkout=OrderCheckout.objects.create(**validated_data)
+        for item in orderItems:
+            OrderItems.objects.create(**item,cart=checkout)
         return checkout
