@@ -4,7 +4,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from datetime import date
 
 # Models
-from .models import Coral, CoralType, OrderCheckout, OrderItems
+from .models import Coral, CoralType, OrderCheckout, OrderItem
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -47,7 +47,7 @@ class CheckoutItemsSerializer(serializers.ModelSerializer):
     totalPrice=serializers.SerializerMethodField()
     image=serializers.SerializerMethodField()
     class Meta:
-        model = OrderItems
+        model = OrderItem
         fields = ["quantity" ,"coral","coralName","coralPrice", "totalPrice","image"]
 
     def get_coralName(self,obj):
@@ -77,11 +77,11 @@ class CheckoutListSerializer(serializers.ModelSerializer):
 
 
     def get_orderItems(self, obj):
-        order = OrderItems.objects.filter(cart=obj.id)
+        order = OrderItem.objects.filter(cart=obj.id)
         return CheckoutItemsSerializer(order, many=True).data
 
     def get_totalPrice(self, obj):
-        orders = OrderItems.objects.filter(cart=obj.id)
+        orders = OrderItem.objects.filter(cart=obj.id)
         totalPrice=0
         for order in orders:
             totalPrice+=(order.coral.price*order.quantity)
@@ -101,5 +101,5 @@ class CreateOrderSerializer(serializers.ModelSerializer):
         orderItems = validated_data.pop('orderItems')
         checkout=OrderCheckout.objects.create(**validated_data)
         for item in orderItems:
-            OrderItems.objects.create(**item,cart=checkout)
+            OrderItem.objects.create(**item,cart=checkout)
         return checkout
